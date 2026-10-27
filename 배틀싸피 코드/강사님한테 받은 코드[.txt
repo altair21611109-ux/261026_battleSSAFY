@@ -1,0 +1,44 @@
+arr = [
+[1,1,1,1,1],
+[0,0,0,3,1],
+[0,1,1,1,1],
+[0,0,0,0,1],
+[1,1,1,2,1],
+]
+# 가장 빨리 도착지에 가기위해서 경로를 출력하세요!
+# BFS로 하면 됩니다.
+
+def bfs(maze):
+    N = len(maze)
+    # 시작점 찾기
+    for i in range(N):
+        for j in range(N):
+            if maze[i][j] == 2:
+                sr = i
+                sc = j
+    # 시작점에서 BFS 수행
+    # 이동할 때마다 이동경로를 누적해서 저장
+    queue = [(sr,sc,'')]  #가야할 경로를 저장하는 queue
+    visited = [[0] * N for _ in range(N)]
+    dr = [-1,1,0,0]
+    dc = [0,0,-1,1]
+    direction = ['상','하','좌','우']
+
+    while queue:
+        #현재 위치와 경로 가져오기
+        cr, cc, path = queue.pop(0)
+        if maze[cr][cc] == 3:
+            print(path)
+            break
+        #현재 위치에서 갈 수 있는 길 찾기
+        for d in range(4):
+            nr = cr + dr[d]
+            nc = cc + dc[d]
+
+            # 정상범위 이면서, 벽이 아니면서, 방문하지 않은곳
+            if 0 <= nr < N and 0<= nc < N and \
+                    maze[nr][nc] != 1 and not visited[nr][nc]:
+                    # 방문하면 됩니다.
+                    queue.append((nr,nc,path+direction[d]))
+
+bfs(arr)
